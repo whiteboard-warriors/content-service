@@ -72,9 +72,8 @@ class MeArticle(Resource):
     @api_ns.expect(article_parser)
     @api_ns.marshal_with(article_model, code=http.client.CREATED)
     def post(self):
-        '''
-        Create a new article
-        '''
+        """Create a new article"""
+
         args = article_parser.parse_args()
         header = authentication_header_parser(args['Authorization'])
 
@@ -100,11 +99,23 @@ class MeArticle(Resource):
 
 @api_ns.route('/articles')
 class Article(Resource):
+
     @api_ns.doc('list_articles')
     @api_ns.marshal_with(article_model)
     def get(self):
-        '''
-        Retrieves all articles
-        '''
+        """Retrieve all article"""
+
         articles = ArticleModel.find_all()
         return articles
+
+
+@api_ns.route('/article/<int:article_id>')
+class Article(Resource):
+
+    @api_ns.doc('retrieve_article')
+    @api_ns.marshal_with(article_model)
+    def get(self, article_id):
+        """Retrieve an article"""
+
+        article = ArticleModel.find_by_id(article_id)
+        return article
