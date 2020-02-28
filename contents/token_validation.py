@@ -14,12 +14,12 @@ def decode_token(token, public_key):
     return jwt.decode(token, public_key, algorithms='RS256')
 
 
-def generate_token_header(email, private_key):
+def generate_token_header(user_payload, private_key):
     '''
-    Generate a token header base on the email. Sign using the private key.
+    Generate a token header base on the user payload. Sign using the private key.
     '''
     payload = {
-        'email': email,
+        **user_payload,
         'iat': datetime.utcnow(),
         'exp': datetime.utcnow() + timedelta(days=2),
     }
@@ -66,4 +66,4 @@ def validate_token_header(header, public_key):
         return None
 
     logger.info('Header successfully validated')
-    return decoded_token['email']
+    return decoded_token
