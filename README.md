@@ -80,7 +80,7 @@ $ docker stop 0f822478f63e
 ```
 
 ## Testing the container
-#### Testing the container users the service called `test-sqlite`
+#### Testing the container using the service called `test-sqlite`
 #### defined in the `docker-compose.yaml` file.
 ```
 $ docker-compose build test-sqlite
