@@ -109,7 +109,7 @@ class Article(Resource):
         return articles
 
 
-@api_ns.route('/article/<int:article_id>')
+@api_ns.route('/articles/<int:article_id>')
 class Article(Resource):
 
     @api_ns.doc('retrieve_article')
@@ -118,4 +118,7 @@ class Article(Resource):
         """Retrieve an article"""
 
         article = ArticleModel.find_by_id(article_id)
-        return article
+        if article:
+            return article
+
+        return '', http.client.NOT_FOUND
