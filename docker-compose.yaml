@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  # Development
+  test-sqlite:
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+    build:
+      dockerfile: docker/app/Dockerfile
+      context: .
+    entrypoint: pytest
+    volumes:
+      - ./ContentService:/opt/src

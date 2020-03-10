@@ -78,3 +78,27 @@ CONTAINER ID        IMAGE               COMMAND
 
 $ docker stop 0f822478f63e
 ```
+
+## Testing the container
+#### Testing the container users the service called `test-sqlite`
+#### defined in the `docker-compose.yaml` file.
+```
+$ docker-compose build test-sqlite
+
+Building test-sqlite
+...
+Successfully built 4bba13eb47da
+Successfully tagged content-service_test-sqlite:latest
+```
+
+## Run the test-sqlite container
+```
+$ docker-compose run test-sqlite
+
+test/test_articles.py::test_get_me_articles_unauthorized PASSED [  5%]
+...
+test/test_token_validation.py::test_valid_token_header_invalid_key PASSED [ 94%]
+test/test_token_validation.py::test_valid_token_header PASSED [100%]
+
+================ 17 passed in 3.69s ================
+```
