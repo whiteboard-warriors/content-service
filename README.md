@@ -1,4 +1,5 @@
 Content microservice for the Whiteboard Warriors website
+![](contents_api.png)
 
 ## Tech Stack
 - Python
