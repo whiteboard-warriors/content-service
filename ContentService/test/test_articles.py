@@ -50,6 +50,71 @@ def test_get_me_articles(client, article_fixture):
     assert http.client.OK == response.status_code
 
 
+def test_delete_me_article(client, article_fixture):
+    article_id = article_fixture[0]
+    user_payload = {
+        'userid': 1,
+        'username': 'whiteboardwarriors',
+        'email': 'engineer@whiteboardwarriors.org'
+    }
+
+    header = token_validation.generate_token_header(user_payload,
+                                                    PRIVATE_KEY)
+    headers = {
+        'Authorization': header,
+    }
+
+    url = f'/api/me/article/{article_id}'
+    response = client.delete(url, headers=headers)
+    assert http.client.NO_CONTENT == response.status_code
+
+
+def test_delete_me_article_noheader(client, article_fixture):
+    article_id = article_fixture[1]
+
+    url = f'/api/me/article/{article_id}'
+    response = client.delete(url)
+    assert http.client.UNAUTHORIZED == response.status_code
+
+
+def test_delete_me_article_unauthorized(client, article_fixture):
+    article_id = article_fixture[1]
+    user_payload = {
+        'userid': 2,
+        'username': 'whiteboardwarriors',
+        'email': 'engineer@whiteboardwarriors.org'
+    }
+
+    header = token_validation.generate_token_header(user_payload,
+                                                    PRIVATE_KEY)
+    headers = {
+        'Authorization': header,
+    }
+
+    url = f'/api/me/article/{article_id}'
+    response = client.delete(url, headers=headers)
+    assert http.client.UNAUTHORIZED == response.status_code
+
+
+def test_delete_me_article_invalid_articleid(client, article_fixture):
+    article_id = 1234455
+    user_payload = {
+        'userid': 2,
+        'username': 'whiteboardwarriors',
+        'email': 'engineer@whiteboardwarriors.org'
+    }
+
+    header = token_validation.generate_token_header(user_payload,
+                                                    PRIVATE_KEY)
+    headers = {
+        'Authorization': header,
+    }
+
+    url = f'/api/me/article/{article_id}'
+    response = client.delete(url, headers=headers)
+    assert http.client.NOT_FOUND == response.status_code
+
+
 def test_create_me_articles_unauthorized(client):
     new_article = {
         'slug': fake.slug(),
@@ -125,7 +190,7 @@ def test_list_articles(client, article_fixture):
 
 
 def test_get_article(client, article_fixture):
-    article_id = article_fixture[0]
+    article_id = article_fixture[1]
     response = client.get(f'/api/articles/{article_id}')
     result = response.json
 

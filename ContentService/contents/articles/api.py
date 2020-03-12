@@ -47,7 +47,7 @@ article_model = api_ns.model('Article', model)
 
 
 @api_ns.route('/me/articles')
-class MeArticle(Resource):
+class MeArticles(Resource):
 
     @api_ns.doc('loggedin_user_articles')
     @api_ns.expect(authentication_parser)
@@ -95,6 +95,29 @@ class MeArticle(Resource):
         result = api_ns.marshal(new_article, article_model)
 
         return result, http.client.CREATED
+
+
+@api_ns.route('/me/article/<int:article_id>')
+class MeArticle(Resource):
+
+    @api_ns.doc('delete_article', responses={http.client.NO_CONTENT: 'No content'})
+    @api_ns.expect(authentication_parser)
+    def delete(self, article_id):
+        '''
+        Delete an article
+        '''
+        args = authentication_parser.parse_args()
+        header = authentication_header_parser(args['Authorization'])
+        article = ArticleModel.find_by_id(article_id)
+
+        if not article:
+            return '', http.client.NOT_FOUND
+
+        if article.author_id != header['userid']:
+            return '', http.client.UNAUTHORIZED
+
+        article.delete_from_db()
+        return '', http.client.NO_CONTENT
 
 
 @api_ns.route('/articles')
