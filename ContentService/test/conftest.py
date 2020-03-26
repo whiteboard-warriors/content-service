@@ -1,9 +1,9 @@
 import pytest
-import os
+# import os
 from pathlib import Path
 import http.client
 from contents.app import create_app
-from contents.db import db
+from contents.db import db, db_config
 from .constants import PRIVATE_KEY
 from contents import token_validation
 from contents.articles.models import CategoryModel
@@ -13,16 +13,16 @@ fake = Faker()
 
 @pytest.fixture
 def app():
-    dir_path = Path(os.path.dirname(os.path.realpath(__file__)))
-    path = dir_path / '..'
+    # dir_path = Path(os.path.dirname(os.path.realpath(__file__)))
+    # path = dir_path / '..'
 
-    # Database initialisation
-    FILE_PATH = f'{path}/testdb.sqlite3'
-    DB_URI = 'sqlite+pysqlite:///{file_path}'
-    db_config = {
-        'SQLALCHEMY_DATABASE_URI': DB_URI.format(file_path=FILE_PATH),
-        'SQLALCHEMY_TRACK_MODIFICATIONS': False,
-    }
+    # # Database initialisation
+    # FILE_PATH = f'{path}/testdb.sqlite3'
+    # DB_URI = 'sqlite+pysqlite:///{file_path}'
+    # db_config = {
+    #     'SQLALCHEMY_DATABASE_URI': DB_URI.format(file_path=FILE_PATH),
+    #     'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+    # }
 
     application = create_app(db, db_config)
     application.app_context().push()
