@@ -15,5 +15,5 @@ jobs:
       name: 'Unit Tests'
       script:
         - docker-compose build db
-        - docker-compose build test-postgresql
-        - docker-compose run test-postgresql
+        - docker-compose build test
+        - docker-compose run test
