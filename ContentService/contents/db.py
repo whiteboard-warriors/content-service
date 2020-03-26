@@ -1,9 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-import dotenv
 import os
 from pathlib import Path
 
-dotenv.load_dotenv()
 DATABASE_ENGINE = os.environ.get('DATABASE_ENGINE', 'SQLITE')
 
 if DATABASE_ENGINE == 'SQLITE':
