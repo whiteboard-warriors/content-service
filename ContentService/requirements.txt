@@ -9,7 +9,7 @@ Werkzeug==0.16.1
 pytest-cov==2.8.1
 pytest-flask==0.15.1
 Faker==4.0.1
-pyjwt==1.7.1
+pyjwt==2.4.0
 parse==1.14.0
 cryptography==2.8
 freezegun==0.3.15
